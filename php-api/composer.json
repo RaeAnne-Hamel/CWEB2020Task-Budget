@@ -1,0 +1,26 @@
+{
+  "name": "saskpoly/cweb280",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "basoaltoe",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    "doctrine/orm": "2.7.*",
+    "symfony/serializer-pack": "^1.0",
+    "symfony/validator": "^5.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "entities/"
+    }
+  },
+  "config": {
+    "optimize-autoloader": true
+  }
+
+}
