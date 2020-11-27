@@ -39,17 +39,17 @@ $encodedResult = ' ';
 
 switch($_SERVER['REQUEST_METHOD']){
     case 'GET':
-        $encodedResult = TaskController::getStudents($entityManager, $requestedData);
+        $encodedResult = TaskController::getTask($entityManager, $requestedData);
         break;
     case 'POST':
-        $encodedResult = TaskController::postStudent($entityManager, $requestedData, new Task());
+        $encodedResult = TaskController::postTask($entityManager, $requestedData, new Task());
         break;
     case 'PUT':
-        $encodedResult = TaskController::putStudent($entityManager, $requestedData, $entityManager ->
+        $encodedResult = TaskController::putTask($entityManager, $requestedData, $entityManager ->
         find(Task::class, $requestedData['id']));
         break;
     case 'DELETE':
-        $encodedResult = TaskController::deleteStudent($entityManager, $requestedData,
+        $encodedResult = TaskController::deleteTask($entityManager, $requestedData,
             $entityManager ->find(Task::class, $requestedData['id']));
         break;
     case 'OPTIONS':
