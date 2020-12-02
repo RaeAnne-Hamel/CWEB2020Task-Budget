@@ -6,9 +6,11 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 class TaskController
 {
     /**
+     * This Method will attempt to bring back all Task abject and property values from the database
+     * and be able to sort them
      * @param EntityManager $em
-     * @param array $requestData
-     * @return array|int|string
+     * @param array $requestData -- array containing all the task object and their values we want to display
+     * @return array|int|string -- returns the objects to be displayed
      */
     public static function getTask(EntityManager $em, array $requestData)
     {
@@ -25,7 +27,7 @@ class TaskController
         //sort by pointer -- if no pointer is selected then sort by id
         $sort = isset($_GET['sort']) && in_array($_GET['sort'], $fieldOptions) ? 't'.$_GET['sort'] : 't.id';
 
-        // order by poiter(either asc or desc) if no poinbter is selected then order by asc
+        // order by pointer(either asc or desc) if no pointer is selected then order by asc
         $order =isset($_GET['order']) && in_array($_GET['order'], ['asc', 'desc']) ?
                     strtoupper($_GET['order']) : 'ASC';
 
@@ -50,10 +52,11 @@ class TaskController
     }
 
     /**
+     * this Method will create a new Task object we applied values we wanted and save it to the database
      * @param EntityManager $em
-     * @param array $requestData
-     * @param Task $newTask
-     * @return array|Task|null
+     * @param array $requestData -- the values we want to apply to a task object
+     * @param Task $newTask -- a new task object
+     * @return array|Task|null -- a new created task object containing the values we wanted
      */
     public static function postTask(EntityManager $em, array $requestData, Task $newTask)
     {
@@ -97,6 +100,8 @@ class TaskController
     }
 
     /**
+     * The Method will update a specific task's values and save it to the database
+     * NOTE: this is coded very similar to postTask
      * @param EntityManager $em
      * @param array $newTaskValue
      * @param Task|null $oldTaskValueFromDB
@@ -134,6 +139,7 @@ class TaskController
     }
 
     /**
+     * This Method will remove a specific task from the database
      * @param EntityManager $em
      * @param array $requestedData -- array containing the value to delete
      * @param Task|null $taskToDelete -- specific task object
@@ -155,7 +161,7 @@ class TaskController
         }
         else
         {
-            //if the the type and id matach the onject type and id to be delete
+            //if the the type and id match the object type and id to be delete
             if($requestedData['type'] == $taskToDelete -> getType() &&
                 $requestedData['id'] == $taskToDelete -> getId())
             {
@@ -192,6 +198,8 @@ class TaskController
      *        HELPER METHODS        *
      *******************************/
     /**
+     * The Method will return true or false to signify whether or not a method should add/update a task object
+     * to the database
      * @param array $requestedData -- associative array containing the values to copy the task object
      * @param Task $task -- pass by reference -- existing task object to be populated with
      * @param array $violations -- passing by reference -- array to store any violations
