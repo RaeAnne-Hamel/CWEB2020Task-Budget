@@ -22,7 +22,7 @@ class Transaction
      */
     protected $amount;
     /**
-     * @ORM\Column(type="object")
+     * @ORM\Column(type="string")
      */
     protected $typeTransaction;
     /**
