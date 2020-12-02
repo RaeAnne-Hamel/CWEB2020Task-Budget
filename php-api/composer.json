@@ -12,7 +12,8 @@
   "require": {
     "doctrine/orm": "2.7.*",
     "symfony/serializer-pack": "^1.0",
-    "symfony/validator": "^5.1"
+    "symfony/validator": "^5.1",
+    "symfony/yaml": "^5.2"
   },
   "autoload": {
     "psr-4": {
