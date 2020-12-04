@@ -205,7 +205,7 @@ class TransactionController
      * @param array $violations
      * @return bool
      */
-    public static function populateTransaction(array $reqData, Transaction &$transaction, array &$violations = [])
+    public static function populateTransaction(array $reqData, Transaction $transaction, array &$violations = [])
     {
         //Initialize the Serializer for code later down
         $serializer = new Serializer([new ObjectNormalizer()], []);
