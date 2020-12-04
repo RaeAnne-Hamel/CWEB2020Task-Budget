@@ -30,36 +30,5 @@ class Transaction
      */
     protected $checkPaid;
 
-    /**
-     * @param string
-     */
-    public function setTransactionType($type)
-    {
-        $this->typeTransaction = $type;
-    }
-
-    /**
-     * @param bool
-     */
-    public function setPaid($paid)
-    {
-        $this->checkPaid = $paid;
-    }
-
-    /**
-     * @return int
-     */
-    public function getBankID()
-    {
-        return $this->bankID;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
 }
