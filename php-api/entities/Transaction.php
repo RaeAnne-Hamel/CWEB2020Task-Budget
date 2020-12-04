@@ -30,5 +30,76 @@ class Transaction
      */
     protected $checkPaid;
 
+    /**
+     * @return mixed
+     */
+    public function getBankID()
+    {
+        return $this->bankID;
+    }
+
+    /**
+     * @param mixed $bankID
+     */
+    public function setBankID($bankID)
+    {
+        $this->bankID = $bankID;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @param mixed $amount
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTypeTransaction()
+    {
+        return $this->typeTransaction;
+    }
+
+    /**
+     * @param mixed $typeTransaction
+     */
+    public function setTypeTransaction($typeTransaction)
+    {
+        $this->typeTransaction = $typeTransaction;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCheckPaid()
+    {
+        return $this->checkPaid;
+    }
+
+    /**
+     * @param mixed $checkPaid
+     */
+    public function setCheckPaid($checkPaid)
+    {
+        $this->checkPaid = $checkPaid;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
 }
