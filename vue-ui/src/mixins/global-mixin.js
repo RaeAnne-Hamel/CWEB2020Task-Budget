@@ -1,11 +1,11 @@
-const API_URL = 'http://localhost:8003/';
+const TRANSACTION_API_URL = 'http://localhost:8005/transactionapi.php';
 
 const GlobalMixin = ({
-    data(){
+    data: function(){
         return {
-            API_URL
+            TRANSACTION_API_URL
         }
     }
 });
 
-export default GlobalMixin
+export default GlobalMixin;
