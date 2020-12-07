@@ -1,9 +1,9 @@
-const API_URL = 'http://localhost:8003/';
+const TASK_API_URL = 'http://localhost:8003/index.php';
 
 const GlobalMixin = ({
     data(){
         return {
-            API_URL
+            TASK_API_URL
         }
     }
 });

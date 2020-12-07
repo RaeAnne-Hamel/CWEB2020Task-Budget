@@ -20,8 +20,7 @@ require_once 'TaskController.php';
  ****************************************************************************/
 
 // need the php://input for raw string for PUT and DELETE
-$rawdatafile = file_get_contents('php://input');
-
+$rawDataFile = file_get_contents('php://input');
 
 /**
  * this is what will if fetched
@@ -29,11 +28,7 @@ $rawdatafile = file_get_contents('php://input');
  * call the Request super global
  * to grab it from the webserver
  */
-$requestedData = !empty($rawdatafile) ? json_encode($rawdatafile, true) : $_REQUEST;
-
-// need a serializer
-$serializer = new Serializer([new ObjectNormalizer()], [new JsonEncode()]);
-
+$requestedData = !empty($rawdatafile) ? json_decode($rawDataFile, true) : $_REQUEST;
 
 $encodedResult = ' ';
 
@@ -67,5 +62,12 @@ switch($_SERVER['REQUEST_METHOD']){
 header('Access-Control-Allow-Origin:*');
 header('content-type:application/json');
 
-//echo the task array
-echo $serializer->serialize($encodedResult, 'json');
+if(http_response_code() != 204)
+{
+    // need a serializer
+    $serializer = new Serializer([new ObjectNormalizer()], [new JsonEncode()]);
+
+    //echo the task array
+    echo $serializer->serialize($encodedResult, 'json');
+}
+

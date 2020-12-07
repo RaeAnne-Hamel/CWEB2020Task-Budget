@@ -28,18 +28,28 @@ class TaskController
         $sort = isset($_GET['sort']) && in_array($_GET['sort'], $fieldOptions) ? 't'.$_GET['sort'] : 't.id';
 
         // order by pointer(either asc or desc) if no pointer is selected then order by asc
-        $order =isset($_GET['order']) && in_array($_GET['order'], ['asc', 'desc']) ?
-                    strtoupper($_GET['order']) : 'ASC';
+        $order = isset($_GET['order']) && in_array($_GET['order'], ['asc', 'desc']) ?
+                   strtoupper($_GET['order']) : 'ASC';
 
         $qb = $em ->createQueryBuilder();
 
         //create query: select all from task table sort by pointer then order
-        $qb -> select('t')
-            -> from('Task', 't')
+        $qb ->select('t')
+            ->from('Task', 't')
             -> orderBy($sort, $order);
+
+        if(isset($requestData['id']))
+        {
+            //add a parameter ':ident' to act a placeholder
+            $qb->where('t.id = :ident')
+                // the value for the placeholder
+                ->setParameter('ident',$requestData['id']);
+
+        }
 
         $taskArray = $qb ->getQuery()
                          -> getArrayResult();
+
 
         if(empty($taskArray))
         {
