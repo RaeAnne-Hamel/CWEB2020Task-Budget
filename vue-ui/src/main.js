@@ -15,6 +15,9 @@ Vue.use(VueAxios, axios);
 //import components from src folder
 import App from './App.vue';
 import router from './router'; //declared and exported in the index.js file
+import GlobalMixin from "@/mixins/global-mixin";
+
+Vue.mixin(GlobalMixin);
 
 Vue.config.productionTip = false
 

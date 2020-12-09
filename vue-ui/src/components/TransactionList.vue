@@ -1,6 +1,5 @@
 <template>
 <div>
-  <h1>Transactions</h1>
   <table class="table table-striped table-hover table-dark">
     <thead>
       <tr>
@@ -11,16 +10,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="transaction in transactionArray" :key="transaction.id">
+      <tr v-for="transaction in transactionArray" :key="transaction.id" :class="{'table-info':selectedTransaction.id == transaction.id}">
         <td>{{transaction.bankID}}</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>{{transaction.amount}}</td>
+        <td>{{transaction.typeTransaction}}</td>
+        <td>{{transaction.checkPaid}}</td>
       </tr>
     </tbody>
   </table>
-
+{{$data}}
 </div>
 </template>
 
@@ -30,32 +28,36 @@ import TransactionMixin from "@/mixins/transaction-maxin";
 export default {
   name: "TransactionList",
   mixins:[TransactionMixin],
-  data:function() {
+  data() {
     return {
-      transactionArray: []
+      sortField:'id',
+      sortDirection:'asc',
+      selectedTransaction: {},
+      transactionArray: [],
+      CurrentBank: 1
     };
   },
   methods:{
-    getTransactions: function() {
-
-      this.axios.get(this.TRANSACTION_API_URL)
-          .then( (resp) => {
-            this.transactionArray = resp.data;
-            this.$emit('refreshed', this.transactionArray);
-          })
-          .catch(err => {
-            if(err.response.status == 404)
-            {
-              this.transactionArray = [];
-            }
-          }).finally(()=>{
-
-          });
+    getTransactions() {
+      this.setBusy(true);
+      this.callAPI('get', {sort:this.sortField,order:this.sortDirection})
+        .then(response => {
+          this.transactionArray = response.data;
+          this.$emit('refreshed', this.transactionArray)
+        })
+        .catch(errors => {
+          if(errors.response.status==404) {
+            this.transactionArray = [];
+          }
+        })
+        .finally(() => {
+          this.setBusy(false);
+        });
     }
   },
   mounted() {
     this.getTransactions();
-  }
+  },
 
 
 }

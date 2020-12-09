@@ -1,9 +1,22 @@
-const TRANSACTION_API_URL = 'http://localhost:8005/transactionapi.php';
+const TRANSACTION_API_URL = 'http://localhost:8003/transactionapi.php';
 
 const GlobalMixin = ({
+    props:{
+        debug:{
+            type: Boolean,
+            default:()=>(false)
+        }
+    },
     data: function(){
         return {
             TRANSACTION_API_URL
+        }
+    },
+    mounted(){
+        if(this.debug)
+        {
+            console.log(this.$props);
+            console.log(this.$data);
         }
     }
 });

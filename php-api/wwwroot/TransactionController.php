@@ -21,7 +21,9 @@ class TransactionController
 
         //Write the query to the database to grab all transactions.
         $qb->select('t')
-            ->from('Transaction', 't');
+            ->from('Transaction', 't')
+            ->where('t.bankID = ?1')
+            ->setParameter(1, 1);
 
         //Turn the results of the query into an array object that can be passed back as JSON.
         $transactionArray = $qb->getQuery()->getArrayResult();
@@ -215,6 +217,7 @@ class TransactionController
                 [ObjectNormalizer::OBJECT_TO_POPULATE => $transaction]);
 
             $validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
+
             foreach($validator->validate($transaction) as $violationObject) {
                 $violations[$violationObject->getPropertyPath()] = $violationObject->getMessage();
             }

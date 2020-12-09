@@ -29,11 +29,19 @@ switch($_SERVER['REQUEST_METHOD']){
         $resultToEncode = TransactionController::deleteTransaction($entityManager, $requestData,
             $entityManager->find(Transaction::class,$requestData['id']));
         break;
+    case 'OPTIONS':
+        http_response_code(204);
+
+        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+        header('Access-Control-Allow-Headers: Content-type' );
+        header('Access-Control-Max-Age: 86400');
+        break;
 
     default:
         header('http/1.1 405 Method Not Allowed');
 }
 
+header('Access-Control-Allow-Origin:*');
 header('Content-type:application/json');
 
 if(http_response_code() != 204) {
