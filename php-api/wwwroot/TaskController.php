@@ -1,7 +1,9 @@
 <?php
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Validator\Validation;
 
 class TaskController
 {
@@ -48,7 +50,9 @@ class TaskController
         }
 
         $taskArray = $qb ->getQuery()
-                         -> getArrayResult();
+                         ->getArrayResult();
+
+        var_dump($taskArray[0]);
 
 
         if(empty($taskArray))
@@ -73,9 +77,9 @@ class TaskController
         //Json Result
         $encodedResult = null;
 
+       var_dump($requestData);
         //If any error occurs store it in an array
         $violations = [];
-
         //if populateTask is successful
         if(self::populateTask($requestData, $newTask, $violations)){
 
@@ -113,26 +117,26 @@ class TaskController
      * The Method will update a specific task's values and save it to the database
      * NOTE: this is coded very similar to postTask
      * @param EntityManager $em
-     * @param array $newTaskValue
-     * @param Task|null $oldTaskValueFromDB
+     * @param array $taskData
+     * @param Task|null $TaskValue
      * @return array|Task
      */
-    public static function putTask(EntityManager $em, array $newTaskValue, ?Task $oldTaskValueFromDB)
+    public static function putTask(EntityManager $em, array $taskData, ?Task $TaskValue)
     {
         $encodedResult = null;
         $violations = [];
 
-        if(is_null($oldTaskValueFromDB)){
+        if(is_null($TaskValue)){
             http_response_code(404);
-            $encodedResult = $newTaskValue;
+            $encodedResult = $taskData;
 
-        }elseif(self::populateTask($newTaskValue, $oldTaskValueFromDB, $violations)){
+        }elseif(self::populateTask($taskData, $TaskValue, $violations)){
             try {
                 //update the database with new values
                 $em -> flush();
 
                 //send back task object to the browser
-                $encodedResult = $oldTaskValueFromDB;
+                $encodedResult = $TaskValue;
 
             } catch (\Doctrine\ORM\ORMException $e) {
 
@@ -217,17 +221,21 @@ class TaskController
      */
     public static function populateTask(array $requestedData, Task &$task, array &$violations = []):bool
     {
-        $serializer = new Serializer([new ObjectNormalizer()], []);
+        $serializer = new Serializer([new DateTimeNormalizer(),new ObjectNormalizer()],[]);
+        $startDate = (new \DateTime($requestedData['startDate']))->setTimezone(new \DateTimeZone('UTC'));
+        $dueDate = (new \DateTime($requestedData['dueDate']))->setTimezone(new \DateTimeZone('UTC'));
 
         try {
             //copy the values from requestedData into Task, but skip  the id attribute
             $serializer->denormalize($requestedData, Task::class, null,
                 [ObjectNormalizer::OBJECT_TO_POPULATE => $task,
-                    ObjectNormalizer::IGNORED_ATTRIBUTES => ['id']]);
-
+                    ObjectNormalizer::IGNORED_ATTRIBUTES => ['id','startDate','dueDate']]);
             //create a new validator
-            $validator = \Symfony\Component\Validator\Validation::createValidatorBuilder()->
+            $validator = Validation::createValidatorBuilder()->
             enableAnnotationMapping()->getValidator();
+
+            $task->setStartDate($startDate);
+            $task->setDueDate($dueDate);
 
             //for each value in the new populate -- going to validate them
             foreach ($validator->validate($task) as $validationObject){

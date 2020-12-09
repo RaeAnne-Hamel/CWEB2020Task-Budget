@@ -1,4 +1,6 @@
 <?php
+
+
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -20,52 +22,38 @@ class Task
 
     //this could possible be done in a date class??
     /**
-     * @ORM\column (type="string")
+     * @ORM\column (type="date")
      */
     protected $startDate;
 
     /**
-     * @ORM\column (type="string")
+     * @ORM\column (type="date")
      */
     protected $dueDate;
 
     /**
-     * @ORM\column (type="string")
+     * @ORM\column (type="string", nullable=true)
      */
     protected $completedDate;
 
     /**
-     * @ORM\column (type="string")
-     * @Assert\NotBlank(normalizer="trim", message="Task Type is required")
+     * @ORM\column (type="string", length=60, nullable=true)
      *
+     * @Assert\Length(max=60, maxMessage="Task Type cannot be longer than {{limit}} characters.")
      */
     protected $type;
 
     /**
-     *
+     * @ORM\column (type="string")
      * @Assert\choice(choices=Task::URGENCY_TYPE, message="Choose a valid urgency type")
      */
     protected $urgency;
 
     /**
      * @ORM\column (type="string", nullable=true)
-     *
+     * @Assert\Length(max=180, maxMessage="Task Type cannot be longer the {{limit}} characters.")
      */
     protected $detail;
-
-    /***************************
-     *    GETTERS AND SETTERS  *
-     ***************************/
-
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
 
     /**
      * @return mixed
@@ -118,50 +106,63 @@ class Task
     /**
      * @return mixed
      */
-    public function getType(): string
+    public function getType()
     {
         return $this->type;
     }
 
     /**
-     * @param string $type
+     * @param mixed $type
      */
-    public function setType(string $type): void
+    public function setType($type): void
     {
         $this->type = $type;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getUrgency(): ?string
+    public function getUrgency()
     {
         return $this->urgency;
     }
 
     /**
-     * @param string $urgency
+     * @param mixed $urgency
      */
-    public function setUrgency(string $urgency): void
+    public function setUrgency($urgency): void
     {
         $this->urgency = $urgency;
     }
 
     /**
-     * @return string|null
+     * @return mixed
      */
-    public function getDetail(): ?string
+    public function getDetail()
     {
         return $this->detail;
     }
 
     /**
-     * @param string|null $detail
+     * @param mixed $detail
      */
-    public function setDetail(?string $detail): void
+    public function setDetail($detail): void
     {
         $this->detail = $detail;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /***************************
+     *    GETTERS AND SETTERS  *
+     ***************************/
+
 
 
 

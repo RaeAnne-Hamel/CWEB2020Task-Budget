@@ -28,7 +28,7 @@ $rawDataFile = file_get_contents('php://input');
  * call the Request super global
  * to grab it from the webserver
  */
-$requestedData = !empty($rawdatafile) ? json_decode($rawDataFile, true) : $_REQUEST;
+$requestedData = !empty($rawDataFile) ? json_decode($rawDataFile, true) : $_REQUEST;
 
 $encodedResult = ' ';
 
@@ -40,8 +40,8 @@ switch($_SERVER['REQUEST_METHOD']){
         $encodedResult = TaskController::postTask($entityManager, $requestedData, new Task());
         break;
     case 'PUT':
-        $encodedResult = TaskController::putTask($entityManager, $requestedData, $entityManager ->
-        find(Task::class, $requestedData['id']));
+        $encodedResult = TaskController::putTask($entityManager, $requestedData,
+            $entityManager ->find(Task::class, $requestedData['id']));
         break;
     case 'DELETE':
         $encodedResult = TaskController::deleteTask($entityManager, $requestedData,
