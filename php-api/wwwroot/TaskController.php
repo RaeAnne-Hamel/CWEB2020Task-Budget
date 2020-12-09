@@ -23,7 +23,7 @@ class TaskController
          * 3. create the order
          * 4. create the query
          **/
-        $fieldOptions = ['id', 'startDate', 'dueDate', 'completedDate', 'type', 'urgency', 'detail'];
+        $fieldOptions = ['id', 'startDate', 'dueDate', 'completedDate', 'taskType', 'urgency', 'detail'];
 
         //task table alias is t
         //sort by pointer -- if no pointer is selected then sort by id

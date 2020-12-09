@@ -7,7 +7,7 @@ TESTING TASK
     </h2>
 
     <div class="row">
-      <tasklist debug @busy="setBusy" :disabled="isDisabled"
+      <tasklist debug
         @selected="handleSelected" @refreshed="handleRefreshed"
         ref="taskList"/>
 

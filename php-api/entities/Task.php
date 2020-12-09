@@ -22,12 +22,12 @@ class Task
 
     //this could possible be done in a date class??
     /**
-     * @ORM\column (type="date")
+     * @ORM\column (type="string")
      */
     protected $startDate;
 
     /**
-     * @ORM\column (type="date")
+     * @ORM\column (type="string")
      */
     protected $dueDate;
 
@@ -38,10 +38,9 @@ class Task
 
     /**
      * @ORM\column (type="string", length=60, nullable=true)
-     *
      * @Assert\Length(max=60, maxMessage="Task Type cannot be longer than {{limit}} characters.")
      */
-    protected $type;
+    protected $taskType;
 
     /**
      * @ORM\column (type="string")
@@ -69,6 +68,22 @@ class Task
     public function setStartDate($startDate): void
     {
         $this->startDate = $startDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTaskType()
+    {
+        return $this->taskType;
+    }
+
+    /**
+     * @param mixed $taskType
+     */
+    public function setTaskType($taskType): void
+    {
+        $this->taskType = $taskType;
     }
 
     /**
@@ -103,21 +118,7 @@ class Task
         $this->completedDate = $completedDate;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
 
-    /**
-     * @param mixed $type
-     */
-    public function setType($type): void
-    {
-        $this->type = $type;
-    }
 
     /**
      * @return mixed
