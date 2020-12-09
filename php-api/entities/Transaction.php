@@ -1,6 +1,8 @@
 <?php
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="transactions")
@@ -27,6 +29,7 @@ class Transaction
     protected $typeTransaction;
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\Choice({"True", "False"})
      */
     protected $checkPaid;
 

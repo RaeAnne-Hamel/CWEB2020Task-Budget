@@ -7,6 +7,7 @@
     <td>
   <!--Bank ID-->
   <b-form-group  :state="state.bi" class="mb-1">
+    <label>Which Bank Account is this for?:</label>
     <b-input-group>
       <b-input-group-prepend is-text v-b-tooltip.hover.right="display.bi">
 
@@ -20,6 +21,7 @@
     <td>
   <!--Amount-->
   <b-form-group  :state="state.am" class="mb-1">
+    <label>Amount(Negative if taken out):</label>
     <b-input-group>
       <b-input-group-prepend is-text v-b-tooltip.hover.right="display.am">
 
@@ -33,6 +35,7 @@
     <td>
   <!--Transaction Type-->
   <b-form-group  :state="state.tt" class="mb-1">
+    <label>Type of Transaction:</label>
     <b-input-group>
       <b-input-group-prepend is-text v-b-tooltip.hover.right="display.tt">
 
@@ -45,20 +48,24 @@
 
     <td>
   <!--Paid-->
-  <b-form-group  :state="state.pa" class="mb-1">
+  <b-form-group  :state="state.pa" class="mb-1" >
+    <label>Is Paid:</label>
     <b-input-group>
+
       <b-input-group-prepend is-text v-b-tooltip.hover.right="display.pa">
 
       </b-input-group-prepend>
 
-      <b-form-input :placeholder="display.pa" :state="state.pa" trim v-model="tempTransaction.checkPaid"/>
+      <b-form-select :placeholder="display.pa" :options="booleans" :state="state.pa" trim v-model="tempTransaction.checkPaid"/>
     </b-input-group>
   </b-form-group>
     </td>
 
     <!-- Buttons -->
     <td>
-      <b-button-group class="w-75 mb-3"
+      <b-button-group class="w-100 mb-1">
+        <b-button @click="saveTransaction">Add Transaction</b-button>
+      </b-button-group>
     </td>
 
   </tr>
@@ -89,7 +96,12 @@ export default {
         am:'Amount',
         tt:'Transaction Type',
         pa:'Paid'
-      }
+      },
+      booleans: [
+        { value: 'True', text: 'Yes'},
+        { value: 'False', text: 'No'}
+      ]
+
     };
   },
   watch:{

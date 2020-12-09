@@ -21,9 +21,7 @@ class TransactionController
 
         //Write the query to the database to grab all transactions.
         $qb->select('t')
-            ->from('Transaction', 't')
-            ->where('t.bankID = ?1')
-            ->setParameter(1, 1);
+            ->from('Transaction', 't');
 
         //Turn the results of the query into an array object that can be passed back as JSON.
         $transactionArray = $qb->getQuery()->getArrayResult();
