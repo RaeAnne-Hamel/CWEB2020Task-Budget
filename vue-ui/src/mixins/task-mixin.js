@@ -13,9 +13,9 @@ const TaskMixin = ({
             }
         },
         computed:{
-            isdisabled: function (){
-                return this.isBusy || this.disabled;
-            }
+            // isdisabled: function (){
+            //     return this.isBusy || this.disabled;
+            // }
         },
         methods: {
             setBusy: function (state) {
