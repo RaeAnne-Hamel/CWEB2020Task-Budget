@@ -2,7 +2,8 @@
 <div>
   <h1>Transactions</h1>
   <transform ref="transactionForm" @added="addHandler" @updated="updateHandler" @busy="setBusy"/>
-  <translist ref="transactionList" @refreshed="handleRefreshed" @busy="setBusy"/>
+  <translist ref="transactionList" @refreshed="handleRefreshed" @busy="setBusy" @deleted="deleteHandler" @reset="resetHandler"
+          @selected="selectHandler"/>
 </div>
 </template>
 
@@ -21,7 +22,7 @@ export default {
   },
   data: function () {
     return {
-      selectedStudent: {},
+      selectedTransaction: {},
       transactionArray:[]
     }
   },
@@ -34,8 +35,30 @@ export default {
       this.$refs.transactionList.select(transactionFromAPI,true);
     },
     updateHandler(transactionFromAPI){
-      Object.assign(this.selectedStudent, transactionFromAPI);
+      Object.assign(this.selectedTransaction, transactionFromAPI);
+    },
+    deleteHandler(transactionFromAPI){
+      let index = this.transactionArray.findIndex(t=> t.id === transactionFromAPI.id);
+      if(index > -1) {
+        this.transactionArray.splice(index, 1);
+        this.selectedTransaction = {};
+      }
+    },
+    resetHandler(transactionFromAPI){
+      let index = this.transactionArray.findIndex(t=> t.id === transactionFromAPI.id);
+
+      if(index > -1) {
+        Object.assign(this.transactionArray[index], transactionFromAPI);
+      }
+      else
+      {
+        this.addHandler(transactionFromAPI);
+      }
+    },
+    selectHandler(transactionFromAPI){
+      this.selectedTransaction = transactionFromAPI;
     }
+
   }
 }
 </script>

@@ -28,8 +28,8 @@ class Transaction
      */
     protected $typeTransaction;
     /**
-     * @ORM\Column(type="boolean")
-     * @Assert\Choice({"True", "False"})
+     * @ORM\Column(type="string")
+     * @Assert\Choice({"Yes", "No"})
      */
     protected $checkPaid;
 

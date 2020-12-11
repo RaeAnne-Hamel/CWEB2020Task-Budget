@@ -7,10 +7,9 @@
     <td>
   <!--Bank ID-->
   <b-form-group  :state="state.bi" class="mb-1">
-    <label>Which Bank Account is this for?:</label>
     <b-input-group>
       <b-input-group-prepend is-text v-b-tooltip.hover.right="display.bi">
-
+        <b-icon-hash />
       </b-input-group-prepend>
 
       <b-form-input :placeholder="display.bi" :state="state.bi" trim v-model="tempTransaction.bankID"/>
@@ -21,10 +20,9 @@
     <td>
   <!--Amount-->
   <b-form-group  :state="state.am" class="mb-1">
-    <label>Amount(Negative if taken out):</label>
     <b-input-group>
       <b-input-group-prepend is-text v-b-tooltip.hover.right="display.am">
-
+        <b-icon-wallet2 />
       </b-input-group-prepend>
 
       <b-form-input :placeholder="display.am" :state="state.am" trim v-model="tempTransaction.amount"/>
@@ -35,10 +33,9 @@
     <td>
   <!--Transaction Type-->
   <b-form-group  :state="state.tt" class="mb-1">
-    <label>Type of Transaction:</label>
     <b-input-group>
       <b-input-group-prepend is-text v-b-tooltip.hover.right="display.tt">
-
+        <b-icon-arrow-left-right />
       </b-input-group-prepend>
 
       <b-form-input :placeholder="display.tt" :state="state.tt" trim v-model="tempTransaction.typeTransaction"/>
@@ -49,11 +46,10 @@
     <td>
   <!--Paid-->
   <b-form-group  :state="state.pa" class="mb-1" >
-    <label>Is Paid:</label>
     <b-input-group>
 
       <b-input-group-prepend is-text v-b-tooltip.hover.right="display.pa">
-
+        <b-icon-check2 />
       </b-input-group-prepend>
 
       <b-form-select :placeholder="display.pa" :options="booleans" :state="state.pa" trim v-model="tempTransaction.checkPaid"/>
@@ -63,7 +59,7 @@
 
     <!-- Buttons -->
     <td>
-      <b-button-group class="w-100 mb-1">
+      <b-button-group class="mb-1np">
         <b-button @click="saveTransaction">Add Transaction</b-button>
       </b-button-group>
     </td>
@@ -98,8 +94,8 @@ export default {
         pa:'Paid'
       },
       booleans: [
-        { value: 'True', text: 'Yes'},
-        { value: 'False', text: 'No'}
+        { value: 'Yes', text: 'Yes'},
+        { value: 'No', text: 'No'}
       ]
 
     };
@@ -145,6 +141,7 @@ export default {
           });
 
     }
+
   },
   computed:{
     state(){
