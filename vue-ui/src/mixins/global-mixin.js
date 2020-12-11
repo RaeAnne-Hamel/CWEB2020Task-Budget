@@ -1,5 +1,5 @@
 const TRANSACTION_API_URL = 'http://localhost:8003/transactionapi.php';
-
+const TASK_API_URL = 'http://localhost:8003/index.php';
 const GlobalMixin = ({
     props:{
         debug:{
@@ -9,7 +9,8 @@ const GlobalMixin = ({
     },
     data: function(){
         return {
-            TRANSACTION_API_URL
+            TRANSACTION_API_URL,
+            TASK_API_URL
         }
     },
     mounted(){
