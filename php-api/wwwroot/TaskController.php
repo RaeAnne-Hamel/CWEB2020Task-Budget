@@ -27,7 +27,7 @@ class TaskController
 
         //task table alias is t
         //sort by pointer -- if no pointer is selected then sort by id
-        $sort = isset($_GET['sort']) && in_array($_GET['sort'], $fieldOptions) ? 't'.$_GET['sort'] : 't.id';
+        $sort = isset($_GET['sort']) && in_array($_GET['sort'], $fieldOptions) ? 't.'.$_GET['sort'] : 't.id';
 
         // order by pointer(either asc or desc) if no pointer is selected then order by asc
         $order = isset($_GET['order']) && in_array($_GET['order'], ['asc', 'desc']) ?
@@ -40,19 +40,11 @@ class TaskController
             ->from('Task', 't')
             -> orderBy($sort, $order);
 
-        if(isset($requestData['id']))
-        {
-            //add a parameter ':ident' to act a placeholder
-            $qb->where('t.id = :ident')
-                // the value for the placeholder
-                ->setParameter('ident',$requestData['id']);
-
-        }
 
         $taskArray = $qb ->getQuery()
                          ->getArrayResult();
 
-        var_dump($taskArray[0]);
+       // var_dump($taskArray[0]);
 
 
         if(empty($taskArray))
@@ -77,7 +69,8 @@ class TaskController
         //Json Result
         $encodedResult = null;
 
-       var_dump($requestData);
+       //var_dump($requestData);
+
         //If any error occurs store it in an array
         $violations = [];
         //if populateTask is successful
@@ -176,7 +169,7 @@ class TaskController
         else
         {
             //if the the type and id match the object type and id to be delete
-            if($requestedData['type'] == $taskToDelete -> getType() &&
+            if($requestedData['taskType'] == $taskToDelete -> getTaskType() &&
                 $requestedData['id'] == $taskToDelete -> getId())
             {
                 try{
@@ -192,7 +185,7 @@ class TaskController
                 }
                 catch (\Doctine\Orm\OrmException $e)
                 {
-                    http_response_code(422);
+                    http_response_code(205);
                     $encodeResult = $taskToDelete;
                 }
             }
@@ -222,20 +215,20 @@ class TaskController
     public static function populateTask(array $requestedData, Task &$task, array &$violations = []):bool
     {
         $serializer = new Serializer([new DateTimeNormalizer(),new ObjectNormalizer()],[]);
-        $startDate = (new \DateTime($requestedData['startDate']))->setTimezone(new \DateTimeZone('UTC'));
-        $dueDate = (new \DateTime($requestedData['dueDate']))->setTimezone(new \DateTimeZone('UTC'));
+        //$startDate = (new \DateTime($requestedData['startDate']))->setTimezone(new \DateTimeZone('UTC'));
+        //$dueDate = (new \DateTime($requestedData['dueDate']))->setTimezone(new \DateTimeZone('UTC'));
 
         try {
             //copy the values from requestedData into Task, but skip  the id attribute
             $serializer->denormalize($requestedData, Task::class, null,
                 [ObjectNormalizer::OBJECT_TO_POPULATE => $task,
-                    ObjectNormalizer::IGNORED_ATTRIBUTES => ['id','startDate','dueDate']]);
+                    ObjectNormalizer::IGNORED_ATTRIBUTES => ['id']]);
             //create a new validator
             $validator = Validation::createValidatorBuilder()->
             enableAnnotationMapping()->getValidator();
 
-            $task->setStartDate($startDate);
-            $task->setDueDate($dueDate);
+            //$task->setStartDate($startDate);
+            //$task->setDueDate($dueDate);
 
             //for each value in the new populate -- going to validate them
             foreach ($validator->validate($task) as $validationObject){

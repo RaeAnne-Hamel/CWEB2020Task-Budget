@@ -54,6 +54,19 @@ class Task
      */
     protected $detail;
 
+
+    /***************************
+     *    GETTERS AND SETTERS  *
+     ***************************/
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
     /**
      * @return mixed
      */
@@ -68,22 +81,6 @@ class Task
     public function setStartDate($startDate): void
     {
         $this->startDate = $startDate;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTaskType()
-    {
-        return $this->taskType;
-    }
-
-    /**
-     * @param mixed $taskType
-     */
-    public function setTaskType($taskType): void
-    {
-        $this->taskType = $taskType;
     }
 
     /**
@@ -118,7 +115,21 @@ class Task
         $this->completedDate = $completedDate;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getTaskType()
+    {
+        return $this->taskType;
+    }
 
+    /**
+     * @param mixed $taskType
+     */
+    public function setTaskType($taskType): void
+    {
+        $this->taskType = $taskType;
+    }
 
     /**
      * @return mixed
@@ -152,17 +163,7 @@ class Task
         $this->detail = $detail;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
-    /***************************
-     *    GETTERS AND SETTERS  *
-     ***************************/
 
 
 

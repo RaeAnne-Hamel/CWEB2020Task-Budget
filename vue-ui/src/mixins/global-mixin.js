@@ -2,10 +2,10 @@ const TASK_API_URL = 'http://localhost:8003/index.php';
 
 const GlobalMixin = ({
     props: {
-        debug: {
-            type: Boolean,
-            default:() =>false
-        }
+        // debug: {
+        //     type: Boolean,
+        //     default:()=>(false)
+        // }
     },
     data(){
         return {
@@ -20,4 +20,4 @@ const GlobalMixin = ({
     }
 });
 
-export default GlobalMixin
+export default GlobalMixin;

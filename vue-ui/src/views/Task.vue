@@ -1,6 +1,6 @@
 <template>
 <div>
-TESTING TASK
+
   <div class="task">
     <h2>
       List of Tasks
@@ -8,7 +8,8 @@ TESTING TASK
 
     <div class="row">
       <tasklist debug
-        @selected="handleSelected" @refreshed="handleRefreshed"
+        @selected="handleSelected" @deleted="handleDeleted"
+         @refreshed="handleRefreshed" @added="handleAdded"
         ref="taskList"/>
 
     </div>
@@ -39,10 +40,10 @@ export default {
     handleSelected: function (receivedTask){
       this.selectedTask = receivedTask;
     },
-    handleUpdated:function (updatedTask){
-
-      Object.assign(this.selectedTask, updatedTask);
-    },
+    // handleUpdated:function (updatedTask){
+    //
+    //   Object.assign(this.selectedTask, updatedTask);
+    // },
     handleRefreshed:function (taskFromAPI)
     {
       this.taskArray = taskFromAPI;
@@ -55,7 +56,7 @@ export default {
     handleDeleted:function(deletedTask)
     {
 
-      let index = this.taskArray.findIndex(s => s.id == deletedTask.id);
+      let index = this.taskArray.findIndex(t => t.id == deletedTask.id);
 
       this.taskArray.splice(index, 1);
 

@@ -1,6 +1,7 @@
 <?php
+
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\JsonEncode;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 require_once '../init-db.php';
@@ -30,7 +31,7 @@ $rawDataFile = file_get_contents('php://input');
  */
 $requestedData = !empty($rawDataFile) ? json_decode($rawDataFile, true) : $_REQUEST;
 
-$encodedResult = ' ';
+$encodedResult ='';
 
 switch($_SERVER['REQUEST_METHOD']){
     case 'GET':
@@ -55,19 +56,18 @@ switch($_SERVER['REQUEST_METHOD']){
         header('Access-Control-Max-Age: 86400');
         break;
     default:
-        header('HTTP/1.1 405 Method Not Allowed');
+       http_response_code(405);
 }
 
 //handles the format for browser -- not html but json
 header('Access-Control-Allow-Origin:*');
-header('content-type:application/json');
+header('Content-type:application/json');
 
 if(http_response_code() != 204)
 {
     // need a serializer
-    $serializer = new Serializer([new ObjectNormalizer()], [new JsonEncode()]);
+    $serializer = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
 
     //echo the task array
     echo $serializer->serialize($encodedResult, 'json');
 }
-
