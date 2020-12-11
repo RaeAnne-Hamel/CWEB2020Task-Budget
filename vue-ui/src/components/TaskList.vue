@@ -1,12 +1,14 @@
 <template>
 <div>
   <b-overlay>
-    <div>
-<!--      code if statement if the there are no tasks-->
+    <div v-if="taskArray.length === 0">
+      <div class="alert alert-warning">
+        No tasks to display.
+      </div>
     </div>
 <!--    create a table for the tasks make sure to include an else-->
-    <div>
-      <table class="table table-striped  table-hover">
+    <div v-else>
+      <table class="table table-hover">
         <thead class="thead-dark ">
           <tr>
             <th @click="sortBy('taskType')" class="btn-primary text-info">
@@ -25,7 +27,7 @@
             <th @click="sortBy('detail')" class="btn-primary text-info">
               <b-icon v-if="sortField=='detail'" :icon="arrowStyle"/>Details</th>
 
-            <th></th>
+            <th class="text-info">Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -99,7 +101,7 @@
                       :max="max"
                       locale="en"
                       required
-                      placeholder="dt.std">
+                      placeholder="Pick a Start Date">
                   </b-form-datepicker>
           </b-form-group>
 
@@ -114,7 +116,7 @@
                 :max="max"
                 locale="en"
                 required
-                placeholder="dt.dud">
+                placeholder="Pick a due date">
             </b-form-datepicker>
           </b-form-group>
 
@@ -129,7 +131,7 @@
                       id="input-detail"
                       type="text"
                       v-model="tempTask.detail"
-                      placeholder="dt.dtl">
+                      placeholder="Enter some task details here">
                   </b-form-input>
           </b-form-group>
 
@@ -236,22 +238,25 @@ export default {
       this.error = {};
       // this.setBusy(true);
 
-      this.callAPI('delete', this.tempTask)
+      this.callAPI('delete', this.selectedTask)
           .then(resp => {
             console.log(resp);
             if (resp.status == 204) //success deletion
             {
+              this.selectedTask = {};
               this.tempTask = {};
               this.$emit('deleted', this.task);
             } else if (resp.status == 205) //failed due to restriction
             {
-              this.tempTask = resp.data;
-              this.$emit('reset', resp.data);
+              this.selectedTask = resp.data;
+              this.$emit('reset', this.selectedTask);
             }
           })
           .catch(err => {
             console.log(err);
-          })
+          }).finally(()=>{
+            this.getTask();
+      })
     },
     saveTasks: function () {
       this.error = {}; // clear the error msg
