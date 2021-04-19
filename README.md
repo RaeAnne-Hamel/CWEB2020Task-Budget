@@ -15,7 +15,7 @@ This Demostrates the use of both these langauges and dynamic server communicatio
   - API interface to communicate with the frontend and controller
 Frontend (Vue.js) Features:
 
-![Task GUI](images/TaskGUI.JPG)
+![Task GUI](TaskGUI.JPG)
 
  - Dynamic list: 
           - Sorts the list 
@@ -25,17 +25,15 @@ Frontend (Vue.js) Features:
                 - interactive calendar 
                 - a scroll list for setting the priority 
         
-![Add Task](images/AddTask1.JPG)
-![Add Task - Calendar](images/AddTask2.JPG)
+![Add Task](AddTask1.JPG)
+
+![Add Task - Calendar](AddTask2.JPG)
 
 # Things To Improve
 
-Change the colour scheme to a neutral background for easier viewing
-Work on the Update task button
-
-
-
-
+1. Change the colour scheme to a neutral background for easier viewing
+2. Work on the Update task button
+3. Better Error checking
 
 
 
